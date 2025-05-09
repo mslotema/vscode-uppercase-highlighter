@@ -1,0 +1,52 @@
+{
+  "name": "uppercase-highlighter",
+  "displayName": "Uppercase Highlighter",
+  "description": "Highlights uppercase character for aiding people reading and scanning the text.",
+  "version": "0.9.0",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": ["uppercase-highlighter.run"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Uppercase Highlighter Settings",
+      "properties": {
+        "uppercaseHighlighter.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable highlighting"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "uppercase-highlighter.run",
+        "title": "Uppercase Highlighter toggle"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.99.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
