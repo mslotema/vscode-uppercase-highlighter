@@ -13,12 +13,12 @@ let decorationType: vscode.TextEditorDecorationType = createDecoration(); // Ini
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let firstCall = true;
+	let firstCall = false;
 
 	const start = (autostart: boolean = false) => {
 		if (autostart) {
 			settings = readSettings();
-			vscode.window.showInformationMessage(`Uppercase Highlighter: first call (enabled)`);
+			vscode.window.showInformationMessage(`Uppercase Highlighter: autostart (enabled)`);
 			firstCall = false;
 		} else {
 			if (firstCall) {

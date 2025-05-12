@@ -2,7 +2,7 @@
   "name": "uppercase-highlighter",
   "displayName": "Uppercase Highlighter",
   "description": "A reading aid for people having trouble quickly differentiating uppercase characters by highlighting these.",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "SEE LICENSE IN LICENSE.TXT",
   "publisher": "dogfood-vscode",
   "author": {
@@ -35,7 +35,7 @@
       "properties": {
         "uppercaseHighlighter.enabled": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "Enable highlighting"
         }
       }
