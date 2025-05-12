@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 const COMMAND = 'uppercase-highlighter.run';
 const CONFIGNAME = "uppercaseHighlighter";
 
+
 interface ExtensionSettings {
 	enabled: boolean;
 }
@@ -14,15 +15,25 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let firstCall = true;
 
-	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, () => {
-		if (firstCall) {
-			settings.enabled = writeEnabled(true);
+	const start = (autostart: boolean = false) => {
+		if (autostart) {
+			settings = readSettings();
+			vscode.window.showInformationMessage(`Uppercase Highlighter: first call (enabled)`);
 			firstCall = false;
 		} else {
-			settings.enabled = writeEnabled(!settings.enabled);
+			if (firstCall) {
+				settings.enabled = writeEnabled(true);
+				firstCall = false;
+				vscode.window.showInformationMessage(`Uppercase Highlighter: first call (enabled)`);
+			} else {
+				settings.enabled = writeEnabled(!settings.enabled);
+			}
 		}
 		processStateChange();
-	}));
+	};
+
+	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, start));
+
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
 		if (editor && settings.enabled) {
 			highlightCharacters(editor);
@@ -42,6 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
 			processStateChange();
 		}
 	}));
+
+	start(true);
 }
 
 export function deactivate() { }
@@ -110,7 +123,7 @@ function writeEnabled(enabled: boolean): boolean {
 	return enabled;
 }
 
-function showState(){
+function showState() {
 	vscode.window.showInformationMessage(
 		`Uppercase Highlighter: ${(settings.enabled ? 'enabled' : 'disabled')}`);
 }

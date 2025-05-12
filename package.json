@@ -25,7 +25,7 @@
     "dyslexia"
   ],
   "activationEvents": [
-    "uppercase-highlighter.run"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -35,7 +35,7 @@
       "properties": {
         "uppercaseHighlighter.enabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Enable highlighting"
         }
       }
