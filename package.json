@@ -1,15 +1,32 @@
 {
   "name": "uppercase-highlighter",
   "displayName": "Uppercase Highlighter",
-  "description": "Highlights uppercase character for aiding people reading and scanning the text.",
+  "description": "A reading aid for people having trouble quickly differentiating uppercase characters by highlighting these.",
   "version": "0.9.0",
+  "license": "SEE LICENSE IN LICENSE.TXT",
+  "publisher": "dogfood-vscode",
+  "author": {
+    "name": "Melle Slotema"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mslotema/vscode-uppercase-highlighter"
+  },
   "engines": {
     "vscode": "^1.99.0"
   },
   "categories": [
-    "Other"
+    "Formatters"
   ],
-  "activationEvents": ["uppercase-highlighter.run"],
+  "keywords": [
+    "highlighter",
+    "reading help",
+    "reading aid",
+    "dyslexia"
+  ],
+  "activationEvents": [
+    "uppercase-highlighter.run"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
