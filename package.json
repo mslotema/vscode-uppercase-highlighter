@@ -3,7 +3,7 @@
   "displayName": "Uppercase Highlighter",
   "description": "A reading aid for people having trouble quickly differentiating uppercase characters from lowercase, by highlighting uppercase characters.",
   "icon": "icon/uppercase-icon.png",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "license": "SEE LICENSE IN LICENSE.TXT",
   "publisher": "mslotema",
   "author": {
@@ -53,7 +53,7 @@
     },
     "commands": [
       {
-        "command": "uppercase-highlighter.run",
+        "command": "uppercase-highlighter.toggle",
         "title": "Uppercase Highlighter toggle"
       }
     ]

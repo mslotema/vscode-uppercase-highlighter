@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 
 export class ExtensionSettings {
 
-	public static readonly CONFIGNAME:string = "uppercaseHighlighter";
+	public static readonly CONFIGNAME: string = "uppercaseHighlighter";
 
 	constructor() {
 		this.read();
@@ -15,7 +15,7 @@ export class ExtensionSettings {
 	}
 
 	private _underlined: boolean = true;
-	get underlined() : boolean {
+	get underlined(): boolean {
 		return this._underlined;
 	}
 
@@ -33,10 +33,11 @@ export class ExtensionSettings {
 	}
 
 	setEnabled(enabled: boolean) {
-		if (this._enabled !== enabled) {
-			const config = vscode.workspace.getConfiguration(ExtensionSettings.CONFIGNAME);
+		//if (this._enabled !== enabled) {
+		const config = vscode.workspace.getConfiguration(ExtensionSettings.CONFIGNAME);
+		this._enabled = enabled;
 
-			config.update("enabled", enabled);
-		}
+		config.update("enabled", enabled);
+		//}
 	}
 }

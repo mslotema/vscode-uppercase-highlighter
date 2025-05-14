@@ -1,7 +1,9 @@
 import * as vscode from 'vscode';
 import { ExtensionSettings } from './ExtensionSettings';
 
-const COMMAND = 'uppercase-highlighter.run';
+const COMMAND = 'uppercase-highlighter.toggle';
+
+const debug = false;
 
 let settings = new ExtensionSettings();
 
@@ -9,7 +11,13 @@ let decorationType: vscode.TextEditorDecorationType = createDecoration(settings)
 
 export function activate(context: vscode.ExtensionContext) {
 
-	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, processStateChange));
+	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, () => {
+		// toggle
+		const newValue = !settings.enabled;
+		settings.setEnabled(newValue);
+		decorationType = createDecoration(settings);
+		processStateChange();
+	}));
 
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
 		if (editor && settings.enabled) {
@@ -26,6 +34,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
 		if (event.affectsConfiguration(ExtensionSettings.CONFIGNAME)) {
+			dbg("settings changed");
+
 			settings.read();
 			decorationType = createDecoration(settings);
 			processStateChange();
@@ -84,3 +94,8 @@ function createDecoration(settings: ExtensionSettings) {
 	return vscode.window.createTextEditorDecorationType(options);
 };
 
+function dbg(text: string) {
+	if (debug) {
+		vscode.window.showInformationMessage(`[DBG]: ${text}`);
+	}
+}
