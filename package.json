@@ -1,10 +1,11 @@
 {
   "name": "uppercase-highlighter",
   "displayName": "Uppercase Highlighter",
-  "description": "A reading aid for people having trouble quickly differentiating uppercase characters by highlighting these.",
-  "version": "0.9.1",
+  "description": "A reading aid for people having trouble quickly differentiating uppercase characters from lowercase, by highlighting uppercase characters.",
+  "icon": "icon/uppercase-icon.png",
+  "version": "0.9.6",
   "license": "SEE LICENSE IN LICENSE.TXT",
-  "publisher": "dogfood-vscode",
+  "publisher": "mslotema",
   "author": {
     "name": "Melle Slotema"
   },
@@ -36,7 +37,17 @@
         "uppercaseHighlighter.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Enable highlighting"
+          "description": "Enabled"
+        },
+        "uppercaseHighlighter.underlined": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enabled"
+        },
+        "uppercaseHighlighter.bolder": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enabled"
         }
       }
     },

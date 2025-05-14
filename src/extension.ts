@@ -1,38 +1,15 @@
 import * as vscode from 'vscode';
+import { ExtensionSettings } from './ExtensionSettings';
 
 const COMMAND = 'uppercase-highlighter.run';
-const CONFIGNAME = "uppercaseHighlighter";
 
+let settings = new ExtensionSettings();
 
-interface ExtensionSettings {
-	enabled: boolean;
-}
-
-let settings: ExtensionSettings = readSettings();
-let decorationType: vscode.TextEditorDecorationType = createDecoration(); // Initialize decoration type
+let decorationType: vscode.TextEditorDecorationType = createDecoration(settings);
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let firstCall = false;
-
-	const start = (autostart: boolean = false) => {
-		if (autostart) {
-			settings = readSettings();
-			vscode.window.showInformationMessage(`Uppercase Highlighter: autostart (enabled)`);
-			firstCall = false;
-		} else {
-			if (firstCall) {
-				settings.enabled = writeEnabled(true);
-				firstCall = false;
-				vscode.window.showInformationMessage(`Uppercase Highlighter: first call (enabled)`);
-			} else {
-				settings.enabled = writeEnabled(!settings.enabled);
-			}
-		}
-		processStateChange();
-	};
-
-	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, start));
+	context.subscriptions.push(vscode.commands.registerCommand(COMMAND, processStateChange));
 
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
 		if (editor && settings.enabled) {
@@ -48,13 +25,14 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
-		if (event.affectsConfiguration(CONFIGNAME)) {
-			settings = readSettings();
+		if (event.affectsConfiguration(ExtensionSettings.CONFIGNAME)) {
+			settings.read();
+			decorationType = createDecoration(settings);
 			processStateChange();
 		}
 	}));
 
-	start(true);
+	processStateChange();
 }
 
 export function deactivate() { }
@@ -87,44 +65,22 @@ function highlightCharacters(editor: vscode.TextEditor) {
 
 // helpers:
 function processStateChange() {
-	showState();
+	vscode.window.showInformationMessage(
+		`Uppercase Highlighter: ${(settings.enabled ? 'enabled' : 'disabled')}`);
 
 	const editor = vscode.window.activeTextEditor;
+
 	if (editor) {
 		highlightCharacters(editor!);
 	}
 }
 
-function createDecoration() {
+function createDecoration(settings: ExtensionSettings) {
 	let options: vscode.DecorationRenderOptions = {
-		fontWeight: 'bolder',
-		textDecoration: 'underline'
+		fontWeight: settings.bolder ? 'bolder' : '',
+		textDecoration: settings.underlined ? 'underline' : ''
 	};
+
 	return vscode.window.createTextEditorDecorationType(options);
 };
-
-
-function readSettings(): ExtensionSettings {
-	const config = vscode.workspace.getConfiguration(CONFIGNAME);
-
-	return {
-		enabled: config.get<boolean>("enabled", true)
-	};
-}
-
-function writeEnabled(enabled: boolean): boolean {
-	if (settings.enabled === enabled) {
-		return settings.enabled;
-	}
-
-	const config = vscode.workspace.getConfiguration(CONFIGNAME);
-	config.update("enabled", enabled);
-
-	return enabled;
-}
-
-function showState() {
-	vscode.window.showInformationMessage(
-		`Uppercase Highlighter: ${(settings.enabled ? 'enabled' : 'disabled')}`);
-}
 
